@@ -46,7 +46,7 @@ class Cube:
     def spawnApple(self):
         tryAgain = True
         while tryAgain:
-            position = tuple([randint(1 - self.size // 2, self.size // 2) for i in range(3)])
+            position = tuple([randint(-(self.size // 2), self.size // 2) for i in range(3)])
             if not self.snake.testPosition(position):
                 self.apple = Apple(position)
                 tryAgain = False
