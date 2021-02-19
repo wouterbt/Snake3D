@@ -13,6 +13,11 @@ HEIGHT = 480
 class Cube:
     gameOver = False
     score = 0
+    rotationAxis = "x"
+    rotationVector = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}
+    rotating = False
+    currentRotation = 0.0
+    targetRotation = 0
 
     def __init__(self, size, font):
         self.size = size
@@ -33,11 +38,6 @@ class Cube:
         self.wallsZ = [[(minX, minX, z), (minX, maxX, z), (maxX, maxX, z), (maxX, minX, z)] for z in myRange]
         self.wallsZ = [item for sublist in self.wallsZ for item in sublist] # flatten list
 
-        self.rotationAxis = "x"
-        self.rotationVector = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}
-        self.rotating = False
-        self.currentRotation = 0.0
-        self.targetRotation = 0
         self.snake = Snake((0, 0, SIZE // 2))
         self.spawnApple()
         self.clock = pygame.time.Clock()
@@ -65,7 +65,6 @@ class Cube:
         glLineWidth(1)
 
         glPushMatrix()
-        glTranslate(0, 0, -10)
 
         if self.rotating:
             if self.currentRotation < self.targetRotation:
@@ -78,7 +77,8 @@ class Cube:
                 self.currentRotation = 0.0
                 self.targetRotation = 0
                 self.rotating = False
-        glRotate(self.currentRotation, *self.rotationVector[self.rotationAxis])
+            else:
+                glRotate(self.currentRotation, *self.rotationVector[self.rotationAxis])
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
@@ -148,10 +148,11 @@ class Cube:
         pygame.display.flip()
 
 class Element:
+    color = [1, 1, 1, 1]
+
     def __init__(self, position):
         self.position = position
-        self.color = [1, 1, 1, 1]
-    
+  
     def drawShape(self):
         glutSolidCube(0.95)
 
@@ -256,10 +257,11 @@ class Game:
         glFrustum(-WIDTH / HEIGHT, WIDTH / HEIGHT, -1, 1, 2, 20)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
+        glTranslate(0, 0, -10)
         glEnable(GL_LIGHTING)
         glEnable(GL_RESCALE_NORMAL)
         glEnable(GL_LIGHT0)
-        glLight(GL_LIGHT0, GL_POSITION, [2, 1, -5, 1]) # w = 1: positional light source
+        glLight(GL_LIGHT0, GL_POSITION, [2, 1, 5, 1]) # w = 1: positional light source
         glLight(GL_LIGHT0, GL_DIFFUSE, [0.8, 0.8, 0.8])
         glLight(GL_LIGHT0, GL_AMBIENT, [0.4, 0.4, 0.4])
         glLight(GL_LIGHT0, GL_SPECULAR, [1, 1, 1])
