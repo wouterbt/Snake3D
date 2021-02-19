@@ -103,21 +103,12 @@ class Cube:
         glNormal(1, 0, 0)
         for item in self.wallsX:
             glVertex(*item)
-        glEnd()
-
-        glBegin(GL_QUADS)
         glNormal(-1, 0, 0)
         for item in self.wallsX[::-1]:
             glVertex(*item)
-        glEnd()
-
-        glBegin(GL_QUADS)
         glNormal(0, 1, 0)
         for item in self.wallsY:
             glVertex(*item)
-        glEnd()
-
-        glBegin(GL_QUADS)
         glNormal(0, -1, 0)
         for item in self.wallsY[::-1]:
             glVertex(*item)
@@ -130,9 +121,6 @@ class Cube:
         glNormal(0, 0, 1)
         for item in self.wallsZ:
             glVertex(*item)
-        glEnd()
-
-        glBegin(GL_QUADS)
         glNormal(0, 0, -1)
         for item in self.wallsZ[::-1]:
             glVertex(*item)
