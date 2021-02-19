@@ -1,7 +1,7 @@
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLUT import glutSolidCube, glutSolidSphere
-from random import random
+from random import randint
 from sys import exit
 
 TURNSPEED = 0.2 # degrees per millisecond
@@ -46,7 +46,7 @@ class Cube:
     def spawnApple(self):
         tryAgain = True
         while tryAgain:
-            position = tuple([int(random() * self.size) - self.size // 2] * 3)
+            position = tuple([randint(1 - self.size // 2, self.size // 2) for i in range(3)])
             if not self.snake.testPosition(position):
                 self.apple = Apple(position)
                 tryAgain = False
